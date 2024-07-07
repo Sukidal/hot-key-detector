@@ -1,12 +1,12 @@
 package cn.edu.ecnu.stu.hotkeydetecter.server.strategy;
 
 import cn.edu.ecnu.stu.hotkeydetecter.server.store.StoreManager;
+import cn.edu.ecnu.stu.hotkeydetecter.server.store.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;

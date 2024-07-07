@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c656af30-b252-4f13-8297-e49001e16039" name="Changes" comment="" />
+    <list default="true" id="c656af30-b252-4f13-8297-e49001e16039" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/store/SimpleStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/store/SimpleStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/store/StoreManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/ecnu/stu/hotkeydetecter/server/strategy/HotKeyDetector.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +25,12 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../jdk1.8.0_45/src.zip!/java/util/concurrent/ConcurrentHashMap.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -36,6 +50,9 @@
     </option>
   </component>
   <component name="ProjectId" id="2iu4xO7jkS37KAqUTylGWgjlGHu" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -49,14 +66,21 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/Java/workspace/hot-key-detecter/src/main/java/cn/edu/ecnu/stu/hotkeydetecter/server/store",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.reader.mode",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Java\workspace\hot-key-detecter\src\main\java\cn\edu\ecnu\stu\hotkeydetecter\server\store" />
+    </key>
+  </component>
   <component name="RunManager" selected="JUnit.HotKeyDetectorClient.testHotKey">
     <configuration name="HotKeyDetectorClient.testHotKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="hot-key-detecter" />
@@ -102,7 +126,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1720327377753</updated>
-      <workItem from="1720327378971" duration="25273000" />
+      <workItem from="1720327378971" duration="28827000" />
     </task>
     <servers />
   </component>

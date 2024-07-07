@@ -1,11 +1,8 @@
 package cn.edu.ecnu.stu.hotkeydetecter.server.store;
 
-import cn.edu.ecnu.stu.hotkeydetecter.server.strategy.KeyCounter;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.edu.ecnu.stu.hotkeydetecter.server.store.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 
 @Repository
@@ -17,11 +14,7 @@ public class StoreManager implements KVStore{
 
     public ConcurrentHashMap<Long, int[]> bigMap = new ConcurrentHashMap<>();
 
-    @Autowired
-    public KeyCounter keyCounter;
-
     public int[] read(long key) {
-        keyCounter.countKey(key);
         if(smallMapValid) {
             int[] ints = smallMap.get(key);
             if(ints != null)
