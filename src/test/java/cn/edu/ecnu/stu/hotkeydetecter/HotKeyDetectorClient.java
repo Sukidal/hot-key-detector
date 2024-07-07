@@ -55,7 +55,7 @@ public class HotKeyDetectorClient {
         long start = System.currentTimeMillis();
         long curSecond = start + 1000;
         long cur;
-        KVStore kvStore = simpleStore;
+        KVStore kvStore = storeManager;
         for(long k = 1; ; k++) {
             i = random.nextInt(100);
             key = i < 80 || numColdKey == 0 ? hotKeys[random.nextInt(numHotKey)] : coldKeys[random.nextInt(numColdKey)];

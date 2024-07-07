@@ -623,6 +623,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         final int hash;
         final K key;
         volatile V val;
+        volatile long count;
         volatile Node<K,V> next;
 
         Node(int hash, K key, V val, Node<K,V> next) {
@@ -630,6 +631,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             this.key = key;
             this.val = val;
             this.next = next;
+            this.count = 0;
         }
 
         public final K getKey()       { return key; }
@@ -638,6 +640,14 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         public final String toString(){ return key + "=" + val; }
         public final V setValue(V value) {
             throw new UnsupportedOperationException();
+        }
+
+        public final long getCount() {
+            return count;
+        }
+
+        public final void setCount(long count) {
+            this.count = count;
         }
 
         public final boolean equals(Object o) {
@@ -940,15 +950,19 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (e = tabAt(tab, (n - 1) & h)) != null) {
             if ((eh = e.hash) == h) {
-                if ((ek = e.key) == key || (ek != null && key.equals(ek)))
+                if ((ek = e.key) == key || (ek != null && key.equals(ek))) {
+                    e.count++;
                     return e.val;
+                }
             }
             else if (eh < 0)
                 return (p = e.find(h, key)) != null ? p.val : null;
             while ((e = e.next) != null) {
                 if (e.hash == h &&
-                    ((ek = e.key) == key || (ek != null && key.equals(ek))))
+                    ((ek = e.key) == key || (ek != null && key.equals(ek)))) {
+                    e.count++;
                     return e.val;
+                }
             }
         }
         return null;
@@ -1037,6 +1051,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                     ((ek = e.key) == key ||
                                      (ek != null && key.equals(ek)))) {
                                     oldVal = e.val;
+                                    e.count++;
                                     if (!onlyIfAbsent)
                                         e.val = value;
                                     break;
@@ -1055,6 +1070,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                             if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
                                                            value)) != null) {
                                 oldVal = p.val;
+                                p.count++;
                                 if (!onlyIfAbsent)
                                     p.val = value;
                             }
@@ -3244,7 +3260,9 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         private static final long WAITERTHREAD;
         static {
             try {
-                U = sun.misc.Unsafe.getUnsafe();
+                Field unsafe = Unsafe.class.getDeclaredField("theUnsafe");
+                unsafe.setAccessible(true);
+                U = (Unsafe) unsafe.get(null);
                 Class<?> k = TreeBin.class;
                 LOCKSTATE = U.objectFieldOffset
                     (k.getDeclaredField("lockState"));
@@ -3458,28 +3476,35 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 throw new NoSuchElementException();
             K k = p.key;
             V v = p.val;
+            long count = p.count;
             lastReturned = p;
             advance();
-            return new MapEntry<K,V>(k, v, map);
+            return new MapEntry<K,V>(k, v, count, map);
         }
     }
 
     /**
      * Exported Entry for EntryIterator
      */
-    static final class MapEntry<K,V> implements Map.Entry<K,V> {
+    public static final class MapEntry<K,V> implements Map.Entry<K,V> {
         final K key; // non-null
         V val;       // non-null
         final ConcurrentHashMap<K,V> map;
-        MapEntry(K key, V val, ConcurrentHashMap<K,V> map) {
+        long count;
+        MapEntry(K key, V val, long count, ConcurrentHashMap<K,V> map) {
             this.key = key;
             this.val = val;
             this.map = map;
+            this.count = count;
         }
         public K getKey()        { return key; }
         public V getValue()      { return val; }
         public int hashCode()    { return key.hashCode() ^ val.hashCode(); }
         public String toString() { return key + "=" + val; }
+
+        public long getCount() {
+            return count;
+        }
 
         public boolean equals(Object o) {
             Object k, v; Map.Entry<?,?> e;
@@ -3605,7 +3630,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         public void forEachRemaining(Consumer<? super Map.Entry<K,V>> action) {
             if (action == null) throw new NullPointerException();
             for (Node<K,V> p; (p = advance()) != null; )
-                action.accept(new MapEntry<K,V>(p.key, p.val, map));
+                action.accept(new MapEntry<K,V>(p.key, p.val, p.count, map));
         }
 
         public boolean tryAdvance(Consumer<? super Map.Entry<K,V>> action) {
@@ -3613,7 +3638,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             Node<K,V> p;
             if ((p = advance()) == null)
                 return false;
-            action.accept(new MapEntry<K,V>(p.key, p.val, map));
+            action.accept(new MapEntry<K,V>(p.key, p.val, p.count, map));
             return true;
         }
 
@@ -4794,7 +4819,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             if ((t = map.table) != null) {
                 Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
                 for (Node<K,V> p; (p = it.advance()) != null; )
-                    action.accept(new MapEntry<K,V>(p.key, p.val, map));
+                    action.accept(new MapEntry<K,V>(p.key, p.val, p.count, map));
             }
         }
 

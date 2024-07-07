@@ -15,9 +15,6 @@ import java.util.function.BiConsumer;
 public class HotKeyDetector {
 
     @Autowired
-    public KeyCounter keyCounter;
-
-    @Autowired
     public StoreManager storeManager;
 
     private ScheduledThreadPoolExecutor scheduledThreadPool = new ScheduledThreadPoolExecutor(1);
@@ -31,8 +28,9 @@ public class HotKeyDetector {
             public void run() {
                 long max = Integer.MIN_VALUE;
                 long min = Integer.MAX_VALUE;
-                for (Map.Entry<Long, Long> entry : keyCounter.countMap.entrySet()) {
-                    long count = entry.getValue();
+                for (Map.Entry<Long, int[]> entry : storeManager.bigMap.entrySet()) {
+                    ConcurrentHashMap.MapEntry entry1 = (ConcurrentHashMap.MapEntry) entry;
+                    long count = entry1.getCount();
                     if(max < count)
                         max = count;
                     if(min > count)
@@ -61,8 +59,9 @@ public class HotKeyDetector {
 
     public void setNewSmallMap(long max, long min) {
         ConcurrentHashMap<Long, int[]> newSmallMap = new ConcurrentHashMap<>();
-        for (Map.Entry<Long, Long> entry : keyCounter.countMap.entrySet()) {
-            long count = entry.getValue();
+        for (Map.Entry<Long, int[]> entry : storeManager.bigMap.entrySet()) {
+            ConcurrentHashMap.MapEntry entry1 = (ConcurrentHashMap.MapEntry) entry;
+            long count = entry1.getCount();
             if(max - count < count - min) {
                 newSmallMap.put(entry.getKey(), storeManager.getFromBigMap(entry.getKey()));
             }

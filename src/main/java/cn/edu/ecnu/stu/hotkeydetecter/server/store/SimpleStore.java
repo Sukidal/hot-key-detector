@@ -1,7 +1,8 @@
 package cn.edu.ecnu.stu.hotkeydetecter.server.store;
 
-import cn.edu.ecnu.stu.hotkeydetecter.server.store.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository

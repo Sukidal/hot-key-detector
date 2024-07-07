@@ -28,16 +28,21 @@ public class StoreManager implements KVStore{
             bigMap.put(key, value);
             return;
         }
-        smallMap.compute(key, new BiFunction<Long, int[], int[]>() {
-            @Override
-            public int[] apply(Long aLong, int[] ints) {
-                if(ints == null) {
-                    bigMap.put(key, value);
-                    return null;
-                }
-                return value;
-            }
-        });
+        if(smallMap.containsKey(key)) {
+            smallMap.put(key, value);
+        } else {
+            bigMap.put(key, value);
+        }
+//        smallMap.compute(key, new BiFunction<Long, int[], int[]>() {
+//            @Override
+//            public int[] apply(Long aLong, int[] ints) {
+//                if(ints == null) {
+//                    bigMap.put(key, value);
+//                    return null;
+//                }
+//                return value;
+//            }
+//        });
     }
 
     public int[] getFromBigMap(long key) {
